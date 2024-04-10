@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f6f6;
+        }
+        .email-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        .email-header {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+        .email-header h1 {
+            margin: 0;
+            color: #333333;
+        }
+        .email-body {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+        .email-body p {
+            color: #666666;
+        }
+        .email-footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #dddddd;
+        }
+        .email-footer p {
+            color: #888888;
+        }
+        .button {
+            display: inline-block;
+            color: #ffffff;
+            background-color: #3498db;
+            padding: 10px 20px;
+            margin: 20px 0;
+            text-decoration: none;
+            border-radius: 3px;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>Confirmación de cuenta</h1>
+        </div>
+        <div class="email-body">
+            <p>Por favor confirma tu cuenta haciendo clic en el siguiente enlace:</p>
+            <a href="{confirmation_link}" class="button">Confirmar cuenta</a>
+        </div>
+        <div class="email-footer">
+            <p>Si no solicitaste esta confirmación, puedes ignorar este correo.</p>
+        </div>
+    </div>
+</body>
+</html>
+
+
