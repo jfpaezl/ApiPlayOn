@@ -6,8 +6,7 @@ from email.mime.text import MIMEText
 
 load_dotenv()
 
-
-def send_confirmation_email(user_email, confirmation_link):
+def change_password(user_email, confirmation_link):
     # Configuración del servidor de correo
     smtp_server = os.getenv('EMAIL_SERVER')
     smtp_port = os.getenv('EMAIL_PORT')
@@ -21,7 +20,7 @@ def send_confirmation_email(user_email, confirmation_link):
     msg['Subject'] = "Confirmación de cuenta"
 
     # Leer el archivo HTML
-    with open('app/assets/html/confirmEmail.html', 'r') as f:
+    with open('app/assets/html/change_password.html', 'r') as f:
         html_content = f.read()
 
     # Reemplazar un marcador de posición en el HTML con el enlace de confirmación
@@ -38,7 +37,6 @@ def send_confirmation_email(user_email, confirmation_link):
     server.sendmail(smtp_username, user_email, text)
     server.quit()
 
-# send_confirmation_email('correo@correo', 'http://localhost:8000/confirmacion/123456')
 
 
 

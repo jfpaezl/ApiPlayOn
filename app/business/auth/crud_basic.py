@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from fastapi import Depends, HTTPException
 import secrets
 from typing import Union
@@ -5,8 +7,13 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from app.utils.hash import hash_password
 from app.persistence.crud.user_crud import createUser, getUser, getUsers, updateUser
+from app.utils.confirm_email import send_confirmation_email
 from app.config.connection import get_db, engine, Base
 from app.persistence.schemas.user_schema import UserUpdateSchema, UserCreateSchema
+
+load_dotenv()
+
+router = os.getenv("API_ROUTE")
 
 Base.metadata.create_all(bind=engine)
 
@@ -16,6 +23,7 @@ def create_user(user: UserCreateSchema, db: Session = Depends(get_db)):
         newUser = user
         newUser.password = hash_password(user.password)
         newUser.token = secrets.token_urlsafe(32)
+        send_confirmation_email(newUser.email, f"{router}/auth/confirm/{newUser.token}") 
         return createUser(db, user)
     except IntegrityError:
         raise HTTPException(status_code=400, detail="Email already in use")

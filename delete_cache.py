@@ -9,10 +9,8 @@
 # for pycache_dir in glob.glob("**/__pycache__", recursive=True):
 #     os.rmdir(pycache_dir)
 
-from fastapi import Depends, HTTPException
-from app.persistence.crud.user_crud import getByToken
-from app.config.connection import get_db
+from app.utils.hash import verify_password, hash_password
 
-db = next(get_db())
-user = getByToken(db, "g0ScxCXDjuQAeCIkt3-cUsOG-FodpdxY6JnN-iV9HfY")
-print(f"User(id={user.id}, name={user.name}, email={user.email})")
+print(verify_password("123456", "$2b$12$STt8FpTZfmgOpkiisv8gEudAk4udX9RqhOlpusbbQe4hjCd2HWKZ."))
+
+print(hash_password("123456"))

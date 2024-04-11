@@ -1,7 +1,6 @@
 from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
-from app.persistence.schemas.user_schema import UserDedailSchema
 from app.config.connection import get_db
 from app.persistence.crud.user_crud import getByToken
 
@@ -12,16 +11,11 @@ def confirm_account(token: str, db: Session = Depends(get_db)):
     if not user:
         raise HTTPException(status_code=404, detail="Token no encontrado")
     try:
-        # activar la cuenta
-        user.confirm = True
-
-        # Eliminar el token
-        user.token = None
-
-        # Guardar los cambios
+        user.confirm=True
+        user.token=None
         db.commit()
         db.refresh(user)
-        return UserDedailSchema(**user.__dict__)
+        return {"msg": "Cuenta activada"}
     except IntegrityError:
         raise HTTPException(status_code=400, detail="Error al activar la cuenta")
     except SQLAlchemyError:

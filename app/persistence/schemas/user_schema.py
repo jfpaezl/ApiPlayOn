@@ -25,4 +25,10 @@ class UserDedailSchema(UserSchema):
     confirm: Optional[bool] = False
     token: Optional[str] = None
 
+class ChangePasswordSchema(BaseModel):
+    password: str = Field(..., min_length=6, max_length=100)
+    new_password: str = Field(..., min_length=6, max_length=100)
+    email: EmailStr 
+
+
 
