@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, BackgroundTasks
 import secrets
 from typing import Union
 from sqlalchemy.orm import Session
@@ -8,23 +8,23 @@ from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from app.utils.hash import hash_password
 from app.persistence.crud.user_crud import createUser, getUser, getUsers, updateUser
 from app.utils.confirm_email import send_confirmation_email
-from app.config.connection import get_db, engine, Base
+from app.config.connection import get_db
 from app.persistence.schemas.user_schema import UserUpdateSchema, UserCreateSchema
 
 load_dotenv()
 
-router = os.getenv("API_ROUTE")
-
-Base.metadata.create_all(bind=engine)
+router = os.getenv("FRONTEND_ROUTE")
 
 
-def create_user(user: UserCreateSchema, db: Session = Depends(get_db)):
+def create_user(user: UserCreateSchema, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     try: 
         newUser = user
         newUser.password = hash_password(user.password)
         newUser.token = secrets.token_urlsafe(32)
-        send_confirmation_email(newUser.email, f"{router}/auth/confirm/{newUser.token}") 
-        return createUser(db, user)
+        user = createUser(db, user)
+        if user:
+            background_tasks.add_task(send_confirmation_email, newUser.email, f"{router}/confirm/{newUser.token}") 
+            return user
     except IntegrityError:
         raise HTTPException(status_code=400, detail="Email already in use")
     except Exception as e:
@@ -54,11 +54,4 @@ def update_user(id: int, user:Union[UserUpdateSchema, dict], db: Session = Depen
     except SQLAlchemyError as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# print(create_user(
-#    { 
-#         'name': 'jfpaezl2',
-#         'email': 'jfpaezl2@email.com',
-#         'password': '123456'
-#     } 
-# ))
 
