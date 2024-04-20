@@ -1,7 +1,14 @@
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.controllers.auth_controller import routing as authRouting
 from app.config.connection import Base, engine
+
+load_dotenv()
+
+api_route = os.getenv("API_ROUTE")
+front_route = os.getenv("FRONTEND_ROUTE")
 
 Base.metadata.create_all(bind=engine)
 
@@ -10,8 +17,8 @@ app = FastAPI()
 
 # Add CORS middleware
 origins = [
-    "http://localhost:8080",
-    "http://localhost:5173",
+    api_route,
+    front_route,
 ]
 
 app.add_middleware(
