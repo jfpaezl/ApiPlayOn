@@ -45,4 +45,4 @@ Si quieres cambiar el puerto, puedes hacerlo con el argumento --port, por ejempl
 uvicorn main:app --reload --port 8080
 ```
 
-ten en cuenta que si cambias el puerto.  en el archivo .env deves cambiar el puerto en API_ROUTE
+ten en cuenta que si cambias el puerto.  En el archivo .env debes cambiar el puerto en API_ROUTE
