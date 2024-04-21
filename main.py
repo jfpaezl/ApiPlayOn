@@ -13,7 +13,7 @@ front_route = os.getenv("FRONTEND_ROUTE")
 Base.metadata.create_all(bind=engine)
 
 
-app = FastAPI()
+app = FastAPI(title="PlayOn Api", description="API de autenticación", version="0.1.0")
 
 # Add CORS middleware
 origins = [

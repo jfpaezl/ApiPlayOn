@@ -6,6 +6,7 @@ from app.persistence.schemas.user_schema import UserDedailSchema
 from app.persistence.crud.user_crud import authenticate_user
 from app.config.connection import get_db
 from app.utils.hash import verify_password
+from app.utils.jwt import create_access_token
 
 
 def login (email: str, password: str, db : Session = Depends(get_db)):
@@ -17,7 +18,10 @@ def login (email: str, password: str, db : Session = Depends(get_db)):
             raise HTTPException(status_code=401, detail="Incorrect password")
         if not user.confirm:
             raise HTTPException(status_code=401, detail="User not confirmed")
-        return user
+        
+        token_data = {"user":user.id,"email": user.email,"name": user.name}
+        token = create_access_token(data=token_data)
+        return {'tpken' : token}
     except SQLAlchemyError as e:
         raise HTTPException(status_code=500, detail=str(e))
 
