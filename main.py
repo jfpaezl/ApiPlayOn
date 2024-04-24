@@ -2,7 +2,13 @@ import os
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from app.controllers.auth_controller import routing as authRouting
+from app.controllers.profile_controller import routing as profileRouting
+from app.controllers.movie_controller import routing as movieRouting
+from app.controllers.series_controller import routing as seriesRouting
+from app.controllers.preference_controller import routing as preferenceRouting
+
 from app.config.connection import Base, engine
 
 load_dotenv()
@@ -30,3 +36,7 @@ app.add_middleware(
 )
 
 app.include_router(authRouting)
+app.include_router(profileRouting)
+app.include_router(movieRouting)
+app.include_router(seriesRouting)
+app.include_router(preferenceRouting)

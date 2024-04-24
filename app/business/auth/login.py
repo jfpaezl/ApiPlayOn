@@ -2,7 +2,6 @@ from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 
-from app.persistence.schemas.user_schema import UserDedailSchema
 from app.persistence.crud.user_crud import authenticate_user
 from app.config.connection import get_db
 from app.utils.hash import verify_password
@@ -21,7 +20,7 @@ def login (email: str, password: str, db : Session = Depends(get_db)):
         
         token_data = {"user":user.id,"email": user.email,"name": user.name}
         token = create_access_token(data=token_data)
-        return {'tpken' : token}
+        return {'token' : token, 'user': {'id': user.id, 'email': user.email, 'name': user.name}}
     except SQLAlchemyError as e:
         raise HTTPException(status_code=500, detail=str(e))
 

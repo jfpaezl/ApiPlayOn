@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-from typing import List
 
 from app.business.auth.crud_basic import create_user, get_user, get_users, update_user
 from app.business.auth.login import login
