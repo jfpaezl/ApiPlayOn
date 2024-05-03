@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
-from app.business.movie.crud_movie import create_movie, get_movie_by_id, update_movie, delete_movie
+from app.business.movie.crud_movie import get_movie_by_id, update_movie, delete_movie
+from app.business.movie.create_movie import create_movie
 
 routing = APIRouter(
     prefix="/movie",

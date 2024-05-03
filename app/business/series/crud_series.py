@@ -5,16 +5,19 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.persistence.schemas.series_schema import SeriesSchema, UpdateSeriesSchema
 from app.config.connection import get_db
 from app.persistence.crud.series_crud import createSeries, getSeriesById, updateSeries, deleteSeries
+from app.persistence.crud.series_category_crud import getCategoriesBySeriesId
 
-def create_series(series: SeriesSchema, db : Session = Depends(get_db)):
-    try:
-        return createSeries(db, series)
-    except SQLAlchemyError as e:
-        raise HTTPException(status_code=500, detail=str(e))
+# def create_series(series: SeriesSchema, db : Session = Depends(get_db)):
+#     try:
+#         return createSeries(db, series)
+#     except SQLAlchemyError as e:
+#         raise HTTPException(status_code=500, detail=str(e))
     
 def get_series_by_id(series_id: int, db : Session = Depends(get_db)):
     try:
         series = getSeriesById(db, series_id)
+        if series:
+            series.categories = getCategoriesBySeriesId(db, series_id)
         if series is None:
             raise HTTPException(status_code=404, detail="Series not found")
         return series

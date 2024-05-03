@@ -6,7 +6,7 @@ def getMovieById(db: Session, movie_id: int):
     return db.query(Movie).filter(Movie.id == movie_id).first()
 
 def createMovie(db: Session, movie: MovieSchema):
-    new_movie = Movie(**movie.dict())
+    new_movie = Movie(**movie.dict(exclude={'categories'}))
     db.add(new_movie)
     db.commit()
     db.refresh(new_movie)

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 
 class MovieSchema(BaseModel):
     title: str = Field(...)
@@ -10,6 +10,7 @@ class MovieSchema(BaseModel):
     recommended_age: int
     cover_image: str
     poster_image: str
+    is_active: bool = True
 
 class UpdateMovieSchema(BaseModel):
     title: Optional[str] = None
@@ -20,3 +21,7 @@ class UpdateMovieSchema(BaseModel):
     recommended_age: Optional[int] = None
     cover_image: Optional[str] = None
     poster_image: Optional[str] = None
+    is_active: Optional[bool] = None
+
+class MovieCategoriaSchema(MovieSchema):
+    categories: List[int] = []

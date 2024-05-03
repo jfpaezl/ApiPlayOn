@@ -10,6 +10,7 @@ class SeriesSchema(BaseModel):
     recommended_age: int
     cover_image: str
     poster_image: str
+    is_active: bool = True
 
 class UpdateSeriesSchema(BaseModel):
     title: Optional[str] = None
@@ -20,3 +21,7 @@ class UpdateSeriesSchema(BaseModel):
     recommended_age: Optional[int] = None
     cover_image: Optional[str] = None
     poster_image: Optional[str] = None
+    is_active: Optional[bool] = None
+
+class SeriesCategorySchema(SeriesSchema):
+    categories: list[int]

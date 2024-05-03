@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy import Column, Integer, String, Text, Boolean
 from ..config.connection import Base
 
 class Series(Base):
@@ -13,3 +13,4 @@ class Series(Base):
     recommended_age = Column(Integer, nullable=False)
     cover_image = Column(String(255), nullable=False)
     poster_image = Column(String(255), nullable=False)
+    is_active = Column(Boolean, nullable=False, default=True)
