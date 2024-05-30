@@ -4,14 +4,9 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from app.persistence.schemas.movie_schema import MovieSchema, UpdateMovieSchema
 from app.config.connection import get_db
-from app.persistence.crud.movie_crud import createMovie, getMovieById, updateMovie, deleteMovie
+from app.persistence.crud.movie_crud import getMovieById, updateMovie, deleteMovie, getMoviesByReleaseYear, getMovies
 from app.persistence.crud.movie_category_crud import getCategoriesByMovieId
 
-# def create_movie(movie: MovieSchema, db : Session = Depends(get_db)):
-#     try:
-#         return createMovie(db, movie)
-#     except SQLAlchemyError as e:
-#         raise HTTPException(status_code=500, detail=str(e))
     
 def get_movie_by_id(movie_id: int, db : Session = Depends(get_db)):
     try:
@@ -23,6 +18,23 @@ def get_movie_by_id(movie_id: int, db : Session = Depends(get_db)):
         return movie
     except SQLAlchemyError as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+def get_Movies(db : Session = Depends(get_db)):
+    try:
+        movies = getMovies(db)
+        return movies
+    except SQLAlchemyError as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+def get_movies_by_release_year(release_year: int, db : Session = Depends(get_db)):
+    try:
+        movies = getMoviesByReleaseYear(db, release_year)
+        if not movies:
+            raise HTTPException(status_code=404, detail="No movies found for the given year")
+        return movies
+    except SQLAlchemyError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
 
 def update_movie(movie_id: int, movie: UpdateMovieSchema, db : Session = Depends(get_db)):
     try:

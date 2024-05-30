@@ -39,3 +39,10 @@ def getCategoriesByMovieId(db: Session, movie_id: int):
     ).where(MovieCategory.movies_id == movie_id)
     result = db.execute(stmt)
     return [row[0] for row in result.fetchall()]
+
+# listar las peliculas por category_id
+def getMoviesByCategoryId(db: Session , category_id: int):
+    stmt = select(MovieCategory.movies_id).where(MovieCategory.categorys_id == category_id)
+    result = db.execute(stmt)
+    return [row[0] for row in result.fetchall()]
+

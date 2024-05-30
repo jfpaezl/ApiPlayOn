@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session
 from app.db.series_model import Series
+from app.db.seriescategory_model import SeriesCategory
+from app.db.category_model import Category
 from app.persistence.schemas.series_schema import SeriesSchema, UpdateSeriesSchema
 
 def getSeriesById(db: Session, series_id: int):
@@ -26,3 +28,9 @@ def deleteSeries(db: Session, series_id: int):
     db.delete(series_to_delete)
     db.commit()
     return series_to_delete
+
+def getSeriesByCategoryId(db: Session, category_id: int):
+    series =  db.query(Series.id, Series.title, Series.cover_image, Series.is_active).join(SeriesCategory, Series.id == SeriesCategory.series_id)\
+                        .join(Category, SeriesCategory.categorys_id == Category.id)\
+                        .filter(Category.id == category_id).all()
+    return [serie._asdict() for serie in series]

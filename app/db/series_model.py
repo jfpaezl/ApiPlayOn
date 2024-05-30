@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Text, Boolean
+from sqlalchemy.orm import relationship
 from ..config.connection import Base
 
 class Series(Base):
@@ -14,3 +15,5 @@ class Series(Base):
     cover_image = Column(String(255), nullable=False)
     poster_image = Column(String(255), nullable=False)
     is_active = Column(Boolean, nullable=False, default=True)
+
+    seasons = relationship("Season", back_populates="series")

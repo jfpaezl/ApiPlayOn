@@ -5,6 +5,9 @@ from ..schemas.category_schema import CategorySchema
 def getCategoryById (db:Session, category_id:int):
     return db.query(Category).filter(Category.id == category_id).first()
 
+def getCategories (db:Session):
+    return db.query(Category).all()
+
 def createCategory (db:Session, category:CategorySchema):
     new_category = Category(**category.dict())
     db.add(new_category)

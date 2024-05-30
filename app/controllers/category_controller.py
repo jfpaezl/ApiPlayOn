@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.business.category.crud_category import create_category, get_category_by_id, update_category, delete_category
+from app.business.category.crud_category import create_category, get_category_by_id, update_category, delete_category, get_categories
 
 routing = APIRouter(
     prefix="/category",
@@ -9,5 +9,6 @@ routing = APIRouter(
 
 routing.post("/", description="Create a category")(create_category)
 routing.get("/{id}", description="Get a category by id")(get_category_by_id)
+routing.get("/", description="Get all categories")(get_categories)
 routing.put("/{id}", description="Update a category")(update_category)
 routing.delete("/{id}", description="Delete a category")(delete_category)
